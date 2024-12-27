@@ -6,11 +6,19 @@
 
     <groupId>dev.thew</groupId>
     <artifactId>storagelib</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Loft69 Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Loft69/StorageLib</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <plugins>
