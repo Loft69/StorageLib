@@ -187,5 +187,5 @@ public class MyCommand extends AbstractCommand {
            return List.of();
         }
     }
-}```
-
+}
+```
