@@ -1,5 +1,3 @@
-[![](https://jitpack.io/v/Loft69/StorageLib.svg)](https://jitpack.io/#Loft69/StorageLib)  [![](https://jitci.com/gh/Loft69/StorageLib/svg)](https://jitci.com/gh/Loft69/StorageLib)
-
 
 # Framework
 
