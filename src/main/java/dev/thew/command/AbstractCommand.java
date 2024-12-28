@@ -48,7 +48,10 @@ public abstract class AbstractCommand implements TabExecutor, CommandInterface {
 
     private List<String> tabHandle(@NonNull CommandSender sender, String @NonNull [] args) {
         List<String> result = registry.getSubArguments();
-        result.addAll(tabList(sender, args));
+        List<String> tab = tabList(sender, args);
+        if (tab == null || tab.isEmpty()) return result;
+
+        result.addAll(tab);
         return result;
     }
 
