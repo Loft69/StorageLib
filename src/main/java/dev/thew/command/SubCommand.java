@@ -28,7 +28,7 @@ public abstract class SubCommand implements CommandInterface {
         }
 
         Message message = execute(sender, args);
-        message.push(sender);
+        if (message != null) message.push(sender);
         return true;
     }
 

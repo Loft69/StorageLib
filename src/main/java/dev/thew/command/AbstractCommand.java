@@ -30,7 +30,7 @@ public abstract class AbstractCommand implements TabExecutor, CommandInterface {
         }
 
         Message message = execute(sender, args);
-        message.push(sender);
+        if (message != null) message.push(sender);
         return true;
     }
 
