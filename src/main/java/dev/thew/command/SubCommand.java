@@ -4,7 +4,9 @@ import dev.thew.command.message.Message;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
 import java.util.*;
@@ -46,7 +48,10 @@ public abstract class SubCommand implements CommandInterface {
     private List<String> tabHandle(@NonNull CommandSender sender, String @NonNull [] args) {
         List<String> result = registry.getSubArguments();
         List<String> tab = tabList(sender, args);
-        if (tab == null || tab.isEmpty()) return result;
+        if (tab == null || tab.isEmpty()) {
+            tab = new ArrayList<>();
+            for (Player player : Bukkit.getOnlinePlayers()) tab.add(player.getName());
+        }
 
         result.addAll(tab);
         return result;
