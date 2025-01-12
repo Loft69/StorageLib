@@ -116,10 +116,6 @@ public class MyCommand extends AbstractCommand {
 
     public MyCommand(JavaPlugin plugin) {
         super("mycommand", new Permission("myplugin.mycommand"), ChatMessage.of("&cYou don't have permission!"));
-        hook(plugin);
-
-        // Adding subcommands to the main command
-        subCommand(new SubCommand1(), new SubCommand2());
     }
 
     @Override
@@ -132,12 +128,10 @@ public class MyCommand extends AbstractCommand {
         return List.of();
     }
 
-    // SubCommand 1
     private static class SubCommand1 extends SubCommand {
 
         public SubCommand1() {
             super("sub1", new Permission("myplugin.mycommand.sub1"), ChatMessage.of("&cYou don't have permission for sub1!"));
-            subCommand(new NestedSubCommand()); // Adding nested subcommand
         }
 
         @Override
@@ -190,8 +184,6 @@ public class MyCommand extends AbstractCommand {
 ```
 
 ```java
-import dev.thew.test.sub.nested.NestedSub;
-
 @Override
 public void onEnable() {
     new MyCommand()
