@@ -1,6 +1,6 @@
 package dev.thew.command;
 
-import dev.thew.command.message.Message;
+import dev.thew.message.Message;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 
 @RequiredArgsConstructor
-public abstract class AbstractCommand implements TabExecutor, CommandInterface {
+public abstract class AbstractCommand implements TabExecutor, CommandInterface, Permissionable {
 
     private final CommandRegistry registry = new CommandRegistry();
 
@@ -24,7 +24,7 @@ public abstract class AbstractCommand implements TabExecutor, CommandInterface {
 
     @Override
     public boolean onCommand(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, String @NonNull [] args) {
-        if (!hasPermission(sender)) return true;
+        if (!hasPermission(sender, permission, permissionMessage)) return true;
 
         if (args.length > 0) {
             Optional<SubCommand> subCommand = registry.getSubCommand(args[0]);
@@ -38,7 +38,7 @@ public abstract class AbstractCommand implements TabExecutor, CommandInterface {
 
     @Override
     public List<String> onTabComplete(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, String @NonNull [] args) {
-        if (!hasPermission(sender)) return Collections.emptyList();
+        if (!hasPermission(sender, permission, permissionMessage)) return Collections.emptyList();
 
         if (args.length > 0) {
             Optional<SubCommand> subCommand = registry.getSubCommand(args[0]);
@@ -60,14 +60,6 @@ public abstract class AbstractCommand implements TabExecutor, CommandInterface {
         return result;
     }
 
-    private boolean hasPermission(@NonNull CommandSender sender) {
-        if (this.permission != null && !sender.hasPermission(this.permission)) {
-            if (this.permissionMessage != null) this.permissionMessage.push(sender);
-            return false;
-        }
-        return true;
-    }
-
     public void hook(JavaPlugin instance) {
         Optional.ofNullable(instance.getCommand(this.command))
                 .ifPresentOrElse(pluginCommand -> {
@@ -78,7 +70,8 @@ public abstract class AbstractCommand implements TabExecutor, CommandInterface {
                 });
     }
 
-    public void addSubCommand(@NonNull SubCommand... addedCommands) {
+    public AbstractCommand subCommand(@NonNull SubCommand... addedCommands) {
         registry.addSubCommand(addedCommands);
+        return this;
     }
 }

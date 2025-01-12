@@ -11,8 +11,8 @@ Create a class that extends `AbstractCommand`:
 
 ```java
 import dev.thew.command.AbstractCommand;
-import dev.thew.command.message.Message;
-import dev.thew.command.message.type.ChatMessage;
+import dev.thew.message.Message;
+import dev.thew.message.type.ChatMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +23,6 @@ public class MyCommand extends AbstractCommand {
 
     public MyCommand(JavaPlugin instance) {
         super("examplecommand", new Permission("example.command"), ChatMessage.of("&cYou don't have permission!"));
-        hook(instance);
     }
 
     @Override
@@ -44,8 +43,8 @@ Create a class that extends SubCommand:
 
 ```java
 import dev.thew.command.SubCommand;
-import dev.thew.command.message.Message;
-import dev.thew.command.message.type.ChatMessage;
+import dev.thew.message.Message;
+import dev.thew.message.type.ChatMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
@@ -54,7 +53,7 @@ import java.util.List;
 public class MySubCommand extends SubCommand {
 
     public MySubCommand() {
-       super("mysubcommand", new Permission("example.command.subcommand"), ChatMessage.of("&cYou don't have permission!"));
+        super("mysubcommand", new Permission("example.command.subcommand"), ChatMessage.of("&cYou don't have permission!"));
     }
 
     @Override
@@ -76,8 +75,9 @@ In your plugin’s onEnable method:
 ```java
 @Override
 public void onEnable() {
-    new MyCommand(this);
-    new MyCommand(this).addSubCommand(new MySubCommand());
+    new MyCommand()
+            .subCommand(new MySubCommand())
+            .hook(this);
 }
 ```
 
@@ -87,8 +87,8 @@ You can create instances of ChatMessage, ActionBarMessage, and TitleMessage usin
 
 ```java
 ChatMessage chatMessage = ChatMessage.of("&aThis is a chat message");
-ActionBarMessage.of("&bThis is an action bar message");
-TitleMessage.of("&cTitle", "&dSubtitle", 10, 20, 10);
+ActionBarMessage.of("&bThis is an action bar message").push(player);
+TitleMessage.of("&cTitle", "&dSubtitle", 10, 20, 10).push(player);
 
 chatMessage.push(player);
 ```
@@ -104,8 +104,8 @@ Here's an example of how to create nested subcommands:
 ```java
 import dev.thew.command.AbstractCommand;
 import dev.thew.command.SubCommand;
-import dev.thew.command.message.Message;
-import dev.thew.command.message.type.ChatMessage;
+import dev.thew.message.Message;
+import dev.thew.message.type.ChatMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -119,7 +119,7 @@ public class MyCommand extends AbstractCommand {
         hook(plugin);
 
         // Adding subcommands to the main command
-        addSubCommand(new SubCommand1(), new SubCommand2());
+        subCommand(new SubCommand1(), new SubCommand2());
     }
 
     @Override
@@ -137,7 +137,7 @@ public class MyCommand extends AbstractCommand {
 
         public SubCommand1() {
             super("sub1", new Permission("myplugin.mycommand.sub1"), ChatMessage.of("&cYou don't have permission for sub1!"));
-            addSubCommand(new NestedSubCommand()); // Adding nested subcommand
+            subCommand(new NestedSubCommand()); // Adding nested subcommand
         }
 
         @Override
@@ -147,11 +147,11 @@ public class MyCommand extends AbstractCommand {
 
         @Override
         public List<String> tabList(CommandSender sender, String[] args) {
-           return List.of();
+            return List.of();
         }
 
         // Nested SubCommand
-         private static class NestedSubCommand extends SubCommand{
+        private static class NestedSubCommand extends SubCommand {
 
             public NestedSubCommand() {
                 super("nested", new Permission("myplugin.mycommand.sub1.nested"), ChatMessage.of("&cYou don't have permission for nested command!"));
@@ -162,11 +162,11 @@ public class MyCommand extends AbstractCommand {
                 return ChatMessage.of("&aHello from nested SubCommand!");
             }
 
-             @Override
-             public List<String> tabList(CommandSender sender, String[] args) {
-                 return List.of();
-             }
-         }
+            @Override
+            public List<String> tabList(CommandSender sender, String[] args) {
+                return List.of();
+            }
+        }
     }
 
     // SubCommand 2
@@ -183,8 +183,23 @@ public class MyCommand extends AbstractCommand {
 
         @Override
         public List<String> tabList(CommandSender sender, String[] args) {
-           return List.of();
+            return List.of();
         }
     }
+}
+```
+
+```java
+import dev.thew.test.sub.nested.NestedSub;
+
+@Override
+public void onEnable() {
+    new MyCommand()
+            .subCommand(
+                    new SubCommand1(), 
+                    new SubCommand2()
+                            .subCommand(new NestedSubCommand())
+            )
+            .hook(this);
 }
 ```

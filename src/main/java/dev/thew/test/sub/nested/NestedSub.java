@@ -1,8 +1,8 @@
 package dev.thew.test.sub.nested;
 
 import dev.thew.command.SubCommand;
-import dev.thew.command.message.Message;
-import dev.thew.command.message.type.ChatMessage;
+import dev.thew.message.Message;
+import dev.thew.message.type.ChatMessage;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;

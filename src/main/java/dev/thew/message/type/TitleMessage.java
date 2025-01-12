@@ -1,6 +1,6 @@
-package dev.thew.command.message.type;
+package dev.thew.message.type;
 
-import dev.thew.command.message.Message;
+import dev.thew.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import net.md_5.bungee.api.ChatColor;

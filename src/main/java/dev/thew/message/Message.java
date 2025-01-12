@@ -1,4 +1,4 @@
-package dev.thew.command.message;
+package dev.thew.message;
 
 import lombok.NonNull;
 import org.bukkit.command.CommandSender;

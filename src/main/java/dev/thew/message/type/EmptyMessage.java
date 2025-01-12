@@ -1,6 +1,6 @@
-package dev.thew.command.message.type;
+package dev.thew.message.type;
 
-import dev.thew.command.message.Message;
+import dev.thew.message.Message;
 import lombok.NonNull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

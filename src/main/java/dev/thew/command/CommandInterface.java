@@ -1,6 +1,6 @@
 package dev.thew.command;
 
-import dev.thew.command.message.Message;
+import dev.thew.message.Message;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
