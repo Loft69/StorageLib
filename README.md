@@ -3,7 +3,7 @@
 
 This is a lightweight command framework designed for Bukkit/Spigot plugins, providing a structured way to manage commands and subcommands. It supports tab completion, permissions, and customizable messages.
 
-## Usage
+## Command
 
 ### 1. Create Your Command
 
@@ -79,18 +79,6 @@ public void onEnable() {
             .subCommand(new MySubCommand())
             .hook(this);
 }
-```
-
-### 4. Using Messages
-
-You can create instances of ChatMessage, ActionBarMessage, and TitleMessage using their of methods to create messages:
-
-```java
-ChatMessage chatMessage = ChatMessage.of("&aThis is a chat message");
-ActionBarMessage.of("&bThis is an action bar message").push(player);
-TitleMessage.of("&cTitle", "&dSubtitle", 10, 20, 10).push(player);
-
-chatMessage.push(player);
 ```
 
 ## Nested Subcommands
@@ -195,3 +183,53 @@ public void onEnable() {
             .hook(this);
 }
 ```
+
+## Messages
+
+You can create instances of ChatMessage, ActionBarMessage, and TitleMessage using their of methods to create messages:
+
+```java
+ChatMessage chatMessage = ChatMessage.of("&aThis is a chat message");
+ActionBarMessage.of("&bThis is an action bar message").push(player);
+TitleMessage.of("&cTitle", "&dSubtitle", 10, 20, 10).push(player);
+
+chatMessage.push(player);
+```
+
+## ItemBuilder
+
+ItemBuilder is a convenient tool for creating and configuring items in Minecraft using the Bukkit API.
+
+### Features
+
+- Easy item creation through method chaining.
+- Setting item names.
+- Adding lore (descriptions).
+- Custom model data support.
+- Adding custom tags.
+
+### Usage
+
+```java
+import dev.thew.item.ItemBuilder;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+ItemStack customItem = new ItemBuilder(Material.DIAMOND_SWORD)
+        .name("\u00A7bLegendary Sword")
+        .lore(List.of("\u00A77A sword of legends", "\u00A7eUnbreakable"))
+        .customModelData(123)
+        .build();
+```
+
+### API
+
+- `ItemBuilder(Material material)` - creates an item from the specified material.
+- `ItemBuilder(ItemStack item)` - wraps an existing item.
+- `name(String name)` - sets the item's name.
+- `lore(List<String> lore)` - adds item lore.
+- `customModelData(int value)` - sets custom model data.
+- `tag(String key, C value, PersistentDataType<T, C> type, JavaPlugin instance)` - adds a custom tag.
+- `build()` - creates the final `ItemStack` object.
+
+
