@@ -1,4 +1,4 @@
-package dev.thew.command;
+package dev.thew.command.base;
 
 import dev.thew.message.Message;
 import org.bukkit.command.CommandSender;

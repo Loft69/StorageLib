@@ -11,27 +11,38 @@ public class TimeUtil {
         return form5;
     }
 
-    public static String getTimeEnding(long seconds) {
-        long hours = seconds / 3600;
-        long minutes = (seconds % 3600) / 60;
-        long secs = seconds % 60;
+    public static String getTimeEnding(long milliseconds) {
+        long secondsTotal = milliseconds / 1000;
+
+        long days = secondsTotal / 86400;
+        long remainingSeconds = secondsTotal % 86400;
+
+        long hours = remainingSeconds / 3600;
+        remainingSeconds = remainingSeconds % 3600;
+
+        long minutes = remainingSeconds / 60;
+        long seconds = remainingSeconds % 60;
 
         StringBuilder result = new StringBuilder();
-
-        if (hours > 0) result
-                .append(hours)
-                .append(" ")
-                .append(getWordForm(hours, "час", "часа", "часов"))
-                .append(" ");
-        if (minutes > 0) result
-                .append(minutes)
-                .append(" ")
-                .append(getWordForm(minutes, "минута", "минуты", "минут"))
-                .append(" ");
-        if (secs > 0 || result.isEmpty()) result
-                .append(secs)
-                .append(" ")
-                .append(getWordForm(secs, "секунда", "секунды", "секунд"));
+        if (days > 0)
+            result.append(days)
+                    .append(" ")
+                    .append(getWordForm(days, "день", "дня", "дней"))
+                    .append(" ");
+        if (hours > 0)
+            result.append(hours)
+                    .append(" ")
+                    .append(getWordForm(hours, "час", "часа", "часов"))
+                    .append(" ");
+        if (minutes > 0)
+            result.append(minutes)
+                    .append(" ")
+                    .append(getWordForm(minutes, "минута", "минуты", "минут"))
+                    .append(" ");
+        if (seconds > 0 || result.isEmpty())
+            result.append(seconds)
+                    .append(" ")
+                    .append(getWordForm(seconds, "секунда", "секунды", "секунд"));
 
         return result.toString().trim();
     }
