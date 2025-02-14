@@ -18,6 +18,16 @@ public abstract class AbstractCommand extends BaseCommand implements TabExecutor
         this.command = command;
     }
 
+    public AbstractCommand(String command) {
+        super(null, null);
+        this.command = command;
+    }
+
+    public AbstractCommand(String command, Permission permission) {
+        super(permission, null);
+        this.command = command;
+    }
+
     @Override
     public final void hook(JavaPlugin instance, AbstractCommand abstractCommand) {
         Optional.ofNullable(instance.getCommand(this.command))

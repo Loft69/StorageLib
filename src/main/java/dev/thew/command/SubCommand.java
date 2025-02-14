@@ -16,6 +16,16 @@ public abstract class SubCommand extends BaseCommand {
         this.command = command;
     }
 
+    public SubCommand(String command) {
+        super(null, null);
+        this.command = command;
+    }
+
+    public SubCommand(String command, Permission permission) {
+        super(permission, null);
+        this.command = command;
+    }
+
     public SubCommand nestedCommand(@NonNull SubCommand... addedCommands) {
         subCommand(addedCommands);
         return this;
